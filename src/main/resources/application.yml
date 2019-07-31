@@ -1,0 +1,67 @@
+
+#server:
+#  port: 8090
+spring:
+
+  datasource:
+    url: jdbc:mysql://47.103.118.92:3306/meiya?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: meiahgot
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 30
+      max-lifetime: 300000
+      connection-test-query: SELECT 1
+      auto-commit: true
+      connection-timeout: 30000
+
+
+  #
+#  spring.datasource.hikari.minimum-idle=3
+#  spring.datasource.hikari.maximum-pool-size=10
+#  spring.datasource.hikari.max-lifetime =30000 // 不能小于30秒，否则默认回到1800秒
+#  spring.datasource.hikari.connection-test-query=SELECT 1
+
+
+  rabbitmq:
+    host: 47.103.118.92
+    username: admin
+    password: 123456
+    port: 5672
+    publisher-confirms: false
+    publisher-returns: false
+
+    template:
+      mandatory=true:
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 1
+        max-concurrency: 100
+        prefetch: 50
+
+    # 设置消费端手动 ack
+#  spring.rabbitmq.listener.simple.acknowledge-mode=manual
+#    #消费者最小数量
+#    spring.rabbitmq.listener.simple.concurrency=1
+#    #消费之最大数量
+#    spring.rabbitmq.listener.simple.max-concurrency=100
+
+    #在单个请求中处理的消息个数，他应该大于等于事务数量(unack的最大数量)
+#    spring.rabbitmq.listener.simple.prefetch=5
+mybatis:
+  config-location: classpath:mybatis-config.xml
+
+
+  #mapper-locations: classpath*:src/main/resources/com/meiya/got/dao #classpath*:src/main/resources/com/meiya/got/dao
+
+
+#spring.datasource.url=jdbc:mysql://localhost:3306/wenda?useUnicode=true&characterEncoding=utf8&useSSL=false
+#spring.datasource.data-username=root
+#spring.datasource.data-password=123456
+#spring.mvc.view.prefix=/templates/
+#spring.mvc.view.suffix=.html
+#spring.velocity.suffix=.html
+#mybatis.config-location=classpath:mybatis-config.xml
+#spring.velocity.toolbox-config-location=toolbox.xml

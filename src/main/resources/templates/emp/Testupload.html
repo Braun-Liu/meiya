@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script type="text/javascript">
+
+    $("#img_input").on("change", function (e) {
+        var file = e.target.files[0]; //获取图片资源
+        // 只选择图片文件
+        if (!file.type.match('image.*')) {
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file); // 读取文件
+        // 渲染文件
+        reader.onload = function (arg) {
+
+            var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+            $(".preview_box").empty().append(img);
+        }
+    });
+</script>
+
+<body>
+    <form action="/store/headImgUpload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="img_input" accept="image/*">
+        <input type="submit" value="提交">
+
+        <!--预览图片-->
+        <div class="preview_box"></div>
+        <h1>上传成功！</h1>
+        图片地址为：<span th:text="${data}"></span>
+    </form>
+
+
+
+
+
+</body>
+
+
+</html>
